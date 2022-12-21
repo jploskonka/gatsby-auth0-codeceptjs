@@ -9,7 +9,7 @@ exports.config = {
       url: process.env.PROD_PAGE_URL,
       show: true,
       browser: 'chromium',
-      waitForTimeout: 5000,
+      waitForTimeout: 10000,
     }
   },
   include: { },
