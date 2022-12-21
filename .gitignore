@@ -1,1 +1,6 @@
 .env*
+node_modules/
+.cache/
+frontend/public
+
+e2e/output
