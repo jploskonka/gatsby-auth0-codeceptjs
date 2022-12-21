@@ -23,6 +23,8 @@ const login = async (I, user) => {
   I.fillField(`password`, secret(user.pass))
   I.click(`Continue`)
 
+  // when user logs in for the first time with Auth0 account, they need to
+  // authorize the app to access their account.
   const needsAuthorization = await I.grabNumberOfVisibleElements(acceptBtn) > 0
   if (needsAuthorization) { I.click(acceptBtn) }
 
