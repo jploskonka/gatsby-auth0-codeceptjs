@@ -27,8 +27,8 @@ jobs:
       - name: npm install
         run: npm install
 
-      - name: sleep for 5 minutes to make sure deploy finished
-        run: sleep 300
+      # - name: sleep for 5 minutes to make sure deploy finished
+      #   run: sleep 300
 
       - name: Run health checks
         run: |
