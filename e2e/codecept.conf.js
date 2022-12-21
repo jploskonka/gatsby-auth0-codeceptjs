@@ -13,9 +13,10 @@ exports.config = {
   output: './output',
   helpers: {
     Playwright: {
-      url: 'http://localhost:8000',
+      url: process.env.TEST_PAGE_URL || 'http://localhost:8000',
       show: true,
-      browser: 'chromium'
+      browser: 'chromium',
+      waitForTimeout: 5000,
     }
   },
   include: { },

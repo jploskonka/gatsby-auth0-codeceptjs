@@ -1,0 +1,49 @@
+name: e2e tests
+on:
+  push:
+
+env:
+  HEADLESS: true
+  TEST_PAGE_URL: http://localhost:9000
+  TEST_USER_LOGIN: ${{ secrets.TEST_USER_LOGIN }}
+  TEST_USER_PASS: ${{ secrets.TEST_USER_PASS }}
+  GATSBY_AUTH0_DOMAIN: ${{ secrets.GATSBY_AUTH0_DOMAIN }}
+  GATSBY_AUTH0_CLIENT_ID: ${{ secrets.GATSBY_AUTH0_CLIENT_ID }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.0.0
+
+      - name: frontend - npm install
+        working-directory: frontend
+        run: npm install
+
+      - name: frontend - build page
+        working-directory: frontend
+        run: npm run build
+
+      - name: frontend - serve page in the background
+        working-directory: frontend
+        run: npm run serve &
+
+      - name: e2e - npm install
+        working-directory: e2e
+        run: npm install
+
+      - name: e2e - run tests
+        working-directory: e2e
+        run: |
+          # wait for webserver to be running before starting tests
+          while ! nc -z localhost 9000; do   
+            echo "Waiting for webserver..."
+            sleep 0.1
+          done
+
+          npx codeceptjs run --steps
