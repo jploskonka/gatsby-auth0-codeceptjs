@@ -15,7 +15,8 @@ exports.config = {
     Playwright: {
       url: process.env.TEST_PAGE_URL || 'http://localhost:8000',
       show: true,
-      browser: 'chromium'
+      browser: 'chromium',
+      waitForTimeout: 5000,
     }
   },
   include: { },
