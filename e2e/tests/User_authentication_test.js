@@ -18,10 +18,9 @@ Scenario(`User logs in and lands on ${afterLoginUrl} page.`, ({ I }) => {
   I.fillField(`username`, user.login)
   I.fillField(`password`, secret(user.pass))
   I.click(`Continue`)
-  I.waitForNavigation()
 
+  I.waitForText(user.login)
   I.seeInCurrentUrl(afterLoginUrl)
-  I.see(user.login)
 })
 
 // One may say let's have this as one scenario where a user logs in, then logs out. It could work out, but if such a scenario fails it's hard to identify which part is broken.
@@ -31,10 +30,10 @@ Scenario(`User logs out and lands on ${afterLogoutUrl}`, ({ I }) => {
   I.fillField(`username`, user.login)
   I.fillField(`password`, secret(user.pass))
   I.click(`Continue`)
-  I.waitForNavigation()
 
+  I.waitForText(`Log out`)
   I.click(`Log out`)
+  I.waitForText(`Log in`)
   I.seeCurrentUrlEquals(afterLogoutUrl)
   I.dontSee(user.login)
-  I.see(`Log in`)
 })
