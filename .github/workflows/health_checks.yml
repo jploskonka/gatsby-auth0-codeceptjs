@@ -1,0 +1,35 @@
+name: Production page health checks
+on:
+  push:
+    branches:
+      - main
+
+env:
+  HEADLESS: true
+  PROD_PAGE_URL: https://gatsbyauth0codeceptjsmain.gatsbyjs.io/
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: e2e
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.0.0
+
+      - name: npm install
+        run: npm install
+
+      - name: sleep for 5 minutes to make sure deploy finished
+        run: sleep 300
+
+      - name: Run health checks
+        run: |
+          npx codeceptjs run -c codecept.prod.conf.js
